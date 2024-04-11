@@ -77,7 +77,9 @@ class RestApiExtender
 
     if (function_exists("get_field_objects")) {
       $fields = get_field_objects();
-      $response->data["custom_acf"] = $this->get_acf_fields_by_post_type($post->post_type);
+      $response->data["postebase"] = [
+        "acf" => $this->get_acf_fields_by_post_type($post->post_type),
+      ];
     }
 
     return $response;
