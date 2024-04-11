@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace Postebase\Update;
-
+// Credit to https://github.com/pablolopezmestre/wordpress-github-plugin-updater
 /**
  * Update WordPress plugin from GitHub Private Repository.
  */
