@@ -25,4 +25,6 @@ require "vendor/autoload.php";
 
 // Start the rest expansion
 new \Postebase\Rest\Filters\RestApiExtender();
+// Start the updater
+new \Postebase\Update\Updater();
 
