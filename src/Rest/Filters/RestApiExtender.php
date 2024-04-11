@@ -29,6 +29,25 @@ class RestApiExtender
   }
 
   /**
+   * Checks if the current request is authenticated using an Application Password.
+   *
+   * @return bool True if authenticated via App Password, false otherwise.
+   */
+  private function is_authenticated_via_app_password()
+  {
+    // WordPress 5.6 and above stores authentication method in the current user's WP_User object
+    $current_user = wp_get_current_user();
+
+    if (!empty($current_user) && !empty($current_user->ID)) {
+      // Check for the application password used for authentication
+      $app_password_used = get_user_meta($current_user->ID, "wp_application_passwords_last_used", true);
+      return !empty($app_password_used);
+    }
+
+    return false;
+  }
+
+  /**
    * Adds a custom property to the REST API response.
    *
    * @param WP_REST_Response $response The response object.
@@ -38,8 +57,11 @@ class RestApiExtender
    */
   public function add_custom_property_to_response($response, $post, $request)
   {
-    // You can modify the value or add conditions based on the $post or $request
-    $response->data["custom_property"] = "This is my custom value";
+    // Check if 'postebase' query param exists and the request is authenticated via App Password
+    if ($request->get_param("postebase") && $this->is_authenticated_via_app_password()) {
+      // Modify the response only if both conditions are true
+      $response->data["custom_property"] = "This is my custom value";
+    }
 
     return $response;
   }
