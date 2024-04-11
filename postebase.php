@@ -17,9 +17,6 @@
 
 define("postebase_path", plugin_dir_path(__FILE__));
 
-//require uip_plugin_path . "admin/vendor/autoload.php";
-//require uip_plugin_path . "admin/uipress-compiler.php";
-
 require "vendor/autoload.php";
 
 // Start the rest expansion
