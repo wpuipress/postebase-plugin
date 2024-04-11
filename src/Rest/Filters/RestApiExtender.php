@@ -29,6 +29,34 @@ class RestApiExtender
   }
 
   /**
+   * Retrieves all ACF fields associated with a specified post type.
+   *
+   * This function fetches all field groups associated with a given post type
+   * and then retrieves all fields within each group, returning a comprehensive
+   * list of fields and their configurations.
+   *
+   * @param string $post_type The slug of the post type for which to retrieve ACF fields.
+   * @return array An array of ACF field configurations associated with the specified post type.
+   */
+  private function get_acf_fields_by_post_type($post_type)
+  {
+    $field_groups = acf_get_field_groups(["post_type" => $post_type]);
+    $all_fields = [];
+
+    foreach ($field_groups as $group) {
+      $fields = acf_get_fields($group["key"]);
+      if ($fields) {
+        foreach ($fields as $field) {
+          // Add each field's settings to the all_fields array
+          $all_fields[] = $field;
+        }
+      }
+    }
+
+    return $all_fields;
+  }
+
+  /**
    * Adds a custom property to the REST API response.
    *
    * @param WP_REST_Response $response The response object.
@@ -49,7 +77,7 @@ class RestApiExtender
 
     if (function_exists("get_field_objects")) {
       $fields = get_field_objects();
-      $response->data["custom_acf"] = $fields;
+      $response->data["custom_acf"] = $this->get_acf_fields_by_post_type($post->post_type);
     }
 
     return $response;
