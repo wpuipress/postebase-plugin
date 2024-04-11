@@ -52,6 +52,7 @@ class RestApiExtender
       $fields = get_field_objects();
       $response->data["postebase"] = [
         "acf" => PostebaseAcf::get_acf_fields_by_post_type($post->post_type, $post->ID),
+        "id" => $post->ID,
       ];
     }
 
