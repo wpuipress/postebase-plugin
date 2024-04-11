@@ -49,7 +49,7 @@ class RestApiExtender
 
     if (function_exists("get_field_objects")) {
       $fields = get_field_objects();
-      $response->data["custom_acf"] = json_encode($fields);
+      $response->data["custom_acf"] = $fields;
     }
 
     return $response;
