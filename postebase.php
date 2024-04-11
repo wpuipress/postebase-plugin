@@ -21,3 +21,8 @@ define("postebase_path", plugin_dir_path(__FILE__));
 //require uip_plugin_path . "admin/vendor/autoload.php";
 //require uip_plugin_path . "admin/uipress-compiler.php";
 
+require __DIR__ . "/vendor/autoload.php";
+
+// Start the rest expansion
+new \Postebase\Rest\Filters\ExtendRestApi\RestApiExtender();
+
