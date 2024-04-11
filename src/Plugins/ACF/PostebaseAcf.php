@@ -30,8 +30,8 @@ class PostebaseAcf
         foreach ($fields as $field) {
           // Add each field's settings to the current group
           if (!isset($field["value"])) {
-            $fetchedValue = get_field($field["key"], $post_id, false);
-            $field["value"] = $fetchedValue && $fetchedValue != "" ? $fetchedValue : $field["value"];
+            //$fetchedValue = get_field($field["key"], $post_id, false);
+            //$field["value"] = $fetchedValue && $fetchedValue != "" ? $fetchedValue : $field["value"];
           }
           $group_with_fields["fields"][] = $field;
         }
