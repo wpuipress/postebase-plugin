@@ -1,0 +1,21 @@
+name: Notify on Publish
+
+# This workflow is triggered on pushes to the main branch.
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Post to Custom Endpoint
+        env:
+          CUSTOM_ENDPOINT: https://app.instawp.io/deployments/site/webhook/9f5d12fd-ad7f-4b83-afcc-968226955548
+          # Add other environment variables or secrets as needed
+        run: |
+          curl -X POST $CUSTOM_ENDPOINT \
+            -H "Content-Type: application/json" \
+            --data '{"event": "published", "branch": "main"}'
