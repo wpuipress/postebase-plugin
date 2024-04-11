@@ -34,19 +34,6 @@ class PostebaseAcf
             $field["value"] = $fetchedValue && $fetchedValue != "" ? $fetchedValue : $field["value"];
           }
 
-          // Handle sub fields
-          if ($field["type"] === "repeater" && is_array($field["sub_fields"])) {
-            $sub_fields = [];
-            foreach ($field["sub_fields"] as $subfield) {
-              if (!isset($subfield["value"])) {
-                $subfetchedValue = get_sub_field($subfield["key"], $post_id, false);
-                $subfield["value"] = $subfetchedValue && $subfetchedValue != "" ? $subfetchedValue : $subfield["value"];
-                $sub_fields[] = $subfield;
-              }
-            }
-            $field["sub_fields"] = $sub_fields;
-          }
-
           $group_with_fields["fields"][] = $field;
         }
       }
