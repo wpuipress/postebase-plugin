@@ -2,11 +2,11 @@
 
 
 <?php
-/*
+/**
  * Plugin Name: Postebase
  * Plugin URI: https://postebase.com
  * Description: Postebase companion plugin. Add's extra details to rest responses and expands rest api to work with the postebase platform.
- * Version: 0.0.9
+ * Version: 0.0.91
  * Requires at least: 6.4
  * Tested up to: 6.5.2
  * Requires PHP: 7.4
