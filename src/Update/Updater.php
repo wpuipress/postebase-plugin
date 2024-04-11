@@ -18,7 +18,6 @@ class Updater
     define("GH_REQUEST_URI", "https://api.github.com/repos/%s/%s/releases");
     define("GHPU_USERNAME", "wpuipress");
     define("GHPU_REPOSITORY", "postebase-plugin");
-    define("GHPU_AUTH_TOKEN", "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"); // removed key
 
     $this->file = $file;
     $this->basename = plugin_basename($this->file);
@@ -79,8 +78,6 @@ class Updater
     if ($args->slug == current(explode("/", $this->basename))) {
       $this->get_repository_info();
       $this->get_plugin_data();
-
-      error_log(json_encode($this->plugin_data));
 
       $plugin = [
         "name" => $this->plugin_data["Name"],
@@ -174,10 +171,6 @@ class Updater
 
     if (is_array($response)) {
       $response = current($response);
-    }
-
-    if (GHPU_AUTH_TOKEN && $response != "Bad credentials") {
-      $response["zipball_url"] = add_query_arg("access_token", GHPU_AUTH_TOKEN, $response["zipball_url"]);
     }
 
     $this->github_response = $response;
