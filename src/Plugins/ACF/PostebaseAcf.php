@@ -13,7 +13,7 @@ class PostebaseAcf
    * @param string $post_type The slug of the post type for which to retrieve ACF fields.
    * @return array An array of ACF field configurations associated with the specified post type.
    */
-  static function get_acf_fields_by_post_type($post_type)
+  static function get_acf_fields_by_post_type($post_type, $post_id)
   {
     $field_groups = acf_get_field_groups(["post_type" => $post_type]);
     $groups_with_fields = [];
@@ -29,6 +29,7 @@ class PostebaseAcf
       if ($fields) {
         foreach ($fields as $field) {
           // Add each field's settings to the current group
+          $field["value"] = get_field($field["ID"], $post_id);
           $group_with_fields["fields"][] = $field;
         }
       }
