@@ -24,5 +24,5 @@ define("postebase_path", plugin_dir_path(__FILE__));
 require "vendor/autoload.php";
 
 // Start the rest expansion
-new \Postebase\Rest\Filters\ExtendRestApi\RestApiExtender();
+new \Postebase\Rest\Filters\RestApiExtender();
 

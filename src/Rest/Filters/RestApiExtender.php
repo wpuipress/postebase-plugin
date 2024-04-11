@@ -44,6 +44,3 @@ class RestApiExtender
     return $response;
   }
 }
-
-// Initialize the class to apply the modifications.
-new RestApiExtender();
