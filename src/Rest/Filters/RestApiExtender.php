@@ -41,19 +41,28 @@ class RestApiExtender
   private function get_acf_fields_by_post_type($post_type)
   {
     $field_groups = acf_get_field_groups(["post_type" => $post_type]);
-    $all_fields = [];
+    $groups_with_fields = [];
 
     foreach ($field_groups as $group) {
+      // Initialize an array (or object) for the current group
+      $group_with_fields = [
+        "name" => $group["title"], // Assuming 'title' holds the name of the group
+        "fields" => [],
+      ];
+
       $fields = acf_get_fields($group["key"]);
       if ($fields) {
         foreach ($fields as $field) {
-          // Add each field's settings to the all_fields array
-          $all_fields[] = $field;
+          // Add each field's settings to the current group
+          $group_with_fields["fields"][] = $field;
         }
       }
+
+      // Add the current group (with its fields) to the list of groups
+      $groups_with_fields[] = $group_with_fields;
     }
 
-    return $all_fields;
+    return $groups_with_fields;
   }
 
   /**
@@ -75,7 +84,7 @@ class RestApiExtender
     // Modify the response only if both conditions are true
     //$response->data["custom_property"] = "This is my custom value";
 
-    if (function_exists("get_field_objects")) {
+    if (function_exists("get_field_objects") && function_exists("acf_get_field_groups")) {
       $fields = get_field_objects();
       $response->data["postebase"] = [
         "acf" => $this->get_acf_fields_by_post_type($post->post_type),
