@@ -1,5 +1,6 @@
 <?php
 namespace Postebase\Rest\Filters;
+use Postebase\Plugins\ACF\PostebaseAcf;
 // If this file is called directly, abort.
 !defined("ABSPATH") ? exit() : "";
 
@@ -29,43 +30,6 @@ class RestApiExtender
   }
 
   /**
-   * Retrieves all ACF fields associated with a specified post type.
-   *
-   * This function fetches all field groups associated with a given post type
-   * and then retrieves all fields within each group, returning a comprehensive
-   * list of fields and their configurations.
-   *
-   * @param string $post_type The slug of the post type for which to retrieve ACF fields.
-   * @return array An array of ACF field configurations associated with the specified post type.
-   */
-  private function get_acf_fields_by_post_type($post_type)
-  {
-    $field_groups = acf_get_field_groups(["post_type" => $post_type]);
-    $groups_with_fields = [];
-
-    foreach ($field_groups as $group) {
-      // Initialize an array (or object) for the current group
-      $group_with_fields = [
-        "name" => $group["title"], // Assuming 'title' holds the name of the group
-        "fields" => [],
-      ];
-
-      $fields = acf_get_fields($group["key"]);
-      if ($fields) {
-        foreach ($fields as $field) {
-          // Add each field's settings to the current group
-          $group_with_fields["fields"][] = $field;
-        }
-      }
-
-      // Add the current group (with its fields) to the list of groups
-      $groups_with_fields[] = $group_with_fields;
-    }
-
-    return $groups_with_fields;
-  }
-
-  /**
    * Adds a custom property to the REST API response.
    *
    * @param WP_REST_Response $response The response object.
@@ -87,7 +51,7 @@ class RestApiExtender
     if (function_exists("get_field_objects") && function_exists("acf_get_field_groups")) {
       $fields = get_field_objects();
       $response->data["postebase"] = [
-        "acf" => $this->get_acf_fields_by_post_type($post->post_type),
+        "acf" => PostebaseAcf::get_acf_fields_by_post_type($post->post_type),
       ];
     }
 
