@@ -30,6 +30,7 @@ class PostebaseAcf
         foreach ($fields as $field) {
           // Add each field's settings to the current group
           $field["value"] = get_field($field["ID"], $post_id, false);
+          $field["test_this"] = $field["ID"];
           $group_with_fields["fields"][] = $field;
         }
       }
