@@ -1,5 +1,5 @@
 <?php
-namespace Postebase\Rest\Filters\ExtendRestApi;
+namespace Postebase\Rest\Filters;
 // If this file is called directly, abort.
 !defined("ABSPATH") ? exit() : "";
 
