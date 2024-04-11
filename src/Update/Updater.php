@@ -110,16 +110,33 @@ class Updater
    * @param array $hook_extra Extra arguments passed to hooked filters.
    * @param array $result     Installation result data.
    */
-  public function after_install(bool $response, array $hook_extra, array $result)
+  public function after_install($response, $hook_extra, $result)
   {
     global $wp_filesystem;
 
-    $install_directory = plugin_dir_path($this->file);
-    $wp_filesystem->move($result["destination"], $install_directory);
-    $result["destination"] = $install_directory;
+    // Define the new install directory, ensure it ends with the desired folder name
+    $desired_install_directory = WP_PLUGIN_DIR . "/postebase";
 
-    if ($this->active) {
-      activate_plugin($this->basename);
+    // Check if the destination directory already exists, if so, we'll want to clear it out
+    if ($wp_filesystem->is_dir($desired_install_directory)) {
+      $wp_filesystem->delete($desired_install_directory, true);
+    }
+
+    // Now, move the uploaded plugin to the desired directory
+    $move_result = $wp_filesystem->move($result["destination"], $desired_install_directory);
+
+    // Make sure the move was successful
+    if ($move_result) {
+      $result["destination"] = $desired_install_directory;
+      $this->file = $desired_install_directory . "/" . basename($this->file);
+
+      // If the plugin was active, reactivate it
+      if ($this->active) {
+        activate_plugin(plugin_basename($this->file));
+      }
+    } else {
+      // Handle error; move operation failed
+      return new WP_Error("plugin_move_failed", __("Plugin move failed."));
     }
 
     return $response;
