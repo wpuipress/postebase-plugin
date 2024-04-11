@@ -57,9 +57,9 @@ class RestApiExtender
    */
   public function add_custom_property_to_response($response, $post, $request)
   {
-    $response->data["custom_request"] = $request->get_param("postebase");
+    //$response->data["custom_request"] = $request->get_param("postebase");
     // Check if 'postebase' query param exists and the request is authenticated via App Password
-    if ($request->get_param("postebase") && $this->is_authenticated_via_app_password()) {
+    if ($request->get_param("postebase") && is_user_logged_in()) {
       // Modify the response only if both conditions are true
       $response->data["custom_property"] = "This is my custom value";
     }
