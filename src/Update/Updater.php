@@ -5,7 +5,7 @@ namespace Postebase\Update;
 /**
  * Update WordPress plugin from GitHub Private Repository.
  */
-class GhPluginUpdater
+class Updater
 {
   private $file;
   private $plugin_data;
