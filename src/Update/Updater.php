@@ -110,7 +110,7 @@ class Updater
    * @param array $hook_extra Extra arguments passed to hooked filters.
    * @param array $result     Installation result data.
    */
-  public function after_install(bool $response, array $hook_extra, array $result): array
+  public function after_install(bool $response, array $hook_extra, array $result)
   {
     global $wp_filesystem;
 
@@ -167,6 +167,12 @@ class Updater
     $request_uri = sprintf(GH_REQUEST_URI, GHPU_USERNAME, GHPU_REPOSITORY);
 
     $request = wp_remote_get($request_uri, $args);
+
+    if (is_wp_error($request) || wp_remote_retrieve_response_code($request) !== 200) {
+      // Handle error; maybe set a transient to retry later
+      return;
+    }
+
     $response = json_decode(wp_remote_retrieve_body($request), true);
 
     if (is_array($response)) {
