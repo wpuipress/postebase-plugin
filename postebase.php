@@ -1,6 +1,3 @@
-
-
-
 <?php
 /**
  * Plugin Name: Postebase
@@ -30,4 +27,3 @@ new \Postebase\Rest\Filters\RestApiExtender();
 // Start the updater
 $updater = new \Postebase\Update\Updater(__FILE__);
 $updater->init();
-
