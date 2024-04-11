@@ -29,7 +29,6 @@ class Updater
   public function init(): void
   {
     add_filter("pre_set_site_transient_update_plugins", [$this, "modify_transient"], 10, 1);
-    add_filter("http_request_args", [$this, "set_header_token"], 10, 2);
     add_filter("plugins_api", [$this, "plugin_popup"], 10, 3);
     add_filter("upgrader_post_install", [$this, "after_install"], 10, 3);
   }
@@ -140,29 +139,6 @@ class Updater
     }
 
     return $response;
-  }
-
-  /**
-   * GitHub access_token param was deprecated. We need to set header with token for requests.
-   *
-   * @param array  $args HTTP request arguments.
-   * @param string $url  The request URL.
-   */
-  public function set_header_token(array $parsed_args, string $url): array
-  {
-    $parsed_url = parse_url($url);
-
-    if ("api.github.com" === ($parsed_url["host"] ?? null) && isset($parsed_url["query"])) {
-      parse_str($parsed_url["query"], $query);
-
-      if (isset($query["access_token"])) {
-        $parsed_args["headers"]["Authorization"] = "token " . $query["access_token"];
-
-        $this->active = is_plugin_active($this->basename);
-      }
-    }
-
-    return $parsed_args;
   }
 
   /**
