@@ -80,6 +80,8 @@ class Updater
       $this->get_repository_info();
       $this->get_plugin_data();
 
+      error_log(json_encode($this->plugin_data));
+
       $plugin = [
         "name" => $this->plugin_data["Name"],
         "slug" => $this->basename,
@@ -163,9 +165,6 @@ class Updater
       "timeout" => 5,
       "redirection" => 5,
       "httpversion" => "1.0",
-      "headers" => [
-        "Authorization" => "token " . GHPU_AUTH_TOKEN,
-      ],
       "sslverify" => true,
     ];
     $request_uri = sprintf(GH_REQUEST_URI, GHPU_USERNAME, GHPU_REPOSITORY);
@@ -177,7 +176,7 @@ class Updater
       $response = current($response);
     }
 
-    if (GHPU_AUTH_TOKEN) {
+    if (GHPU_AUTH_TOKEN && $response != "Bad credentials") {
       $response["zipball_url"] = add_query_arg("access_token", GHPU_AUTH_TOKEN, $response["zipball_url"]);
     }
 
