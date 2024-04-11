@@ -18,7 +18,7 @@ class Updater
     define("GH_REQUEST_URI", "https://api.github.com/repos/%s/%s/releases");
     define("GHPU_USERNAME", "wpuipress");
     define("GHPU_REPOSITORY", "postebase-plugin");
-    define("GHPU_AUTH_TOKEN", ""); // Public repo
+    define("GHPU_AUTH_TOKEN", "");
 
     $this->file = $file;
     $this->basename = plugin_basename($this->file);
