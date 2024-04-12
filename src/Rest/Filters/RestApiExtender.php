@@ -26,6 +26,7 @@ class RestApiExtender
 
     foreach ($post_types as $post_type) {
       add_filter("rest_prepare_" . $post_type->name, [$this, "add_custom_property_to_response"], 10, 3);
+      add_filter("rest_pre_insert_" . $post_type->name, ["Postebase\Plugins\ACF\PostebaseAcf", "save_yoast_custom_fields"], 10, 3);
     }
   }
 
