@@ -121,7 +121,7 @@ class Updater
     // Define the new install directory, ensure it ends with the desired folder name
     $pluginName = plugin_basename($this->file);
     $nameParts = explode("/", $pluginName);
-    $desired_install_directory = WP_PLUGIN_DIR . "/" . $nameParts;
+    $desired_install_directory = WP_PLUGIN_DIR . "/" . $nameParts[0];
 
     if (!is_dir($desired_install_directory)) {
       wp_mkdir_p($desired_install_directory);
