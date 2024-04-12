@@ -111,7 +111,6 @@ class Updater
    */
   public function after_install($response, $hook_extra, $result)
   {
-    return;
     // Only run this hook for the postebase plugin
     if (!isset($result["destination_name"]) || strpos($result["destination_name"], "postebase") == false) {
       return $result;
@@ -121,8 +120,8 @@ class Updater
 
     // Define the new install directory, ensure it ends with the desired folder name
     $pluginName = plugin_basename($this->file);
-    $nameParts = explode(",", $pluginName);
-    $desired_install_directory = WP_PLUGIN_DIR . "/postebase";
+    $nameParts = explode("/", $pluginName);
+    $desired_install_directory = WP_PLUGIN_DIR . "/" . $nameParts;
 
     if (!is_dir($desired_install_directory)) {
       wp_mkdir_p($desired_install_directory);
