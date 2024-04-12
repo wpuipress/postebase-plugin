@@ -111,8 +111,9 @@ class Updater
    */
   public function after_install($response, $hook_extra, $result)
   {
+    error_log(json_encode($result));
     // Only run this hook for the postebase plugin
-    if (!isset($result["destination_name"]) || strpos($result["destination_name"], "postebase") == false) {
+    if (!isset($result["destination_name"]) || strpos($result["source"], "wpuipress-postebase") == false) {
       return $result;
     }
 
