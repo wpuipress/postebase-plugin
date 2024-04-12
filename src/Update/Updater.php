@@ -112,7 +112,7 @@ class Updater
   public function after_install($response, $hook_extra, $result)
   {
     // Only run this hook for the postebase plugin
-    if (!isset($result["destination_name"]) || strpos($result["destination_name"], "postebase") == false) {
+    if (!isset($result["destination_name"]) || strpos($result["destination_name"], "wpuipress-postebase") == false) {
       return $result;
     }
 
@@ -145,7 +145,7 @@ class Updater
 
       // If the plugin was active, reactivate it
       if ($this->active) {
-        activate_plugin(plugin_basename($this->file));
+        activate_plugin("postebase/postebase");
       }
     } else {
       // Handle error; move operation failed
