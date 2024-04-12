@@ -111,14 +111,17 @@ class Updater
    */
   public function after_install($response, $hook_extra, $result)
   {
+    return;
     // Only run this hook for the postebase plugin
-    if (!isset($result["destination_name"]) || strpos($result["destination_name"], "wpuipress-postebase") == false) {
+    if (!isset($result["destination_name"]) || strpos($result["destination_name"], "postebase") == false) {
       return $result;
     }
 
     global $wp_filesystem;
 
     // Define the new install directory, ensure it ends with the desired folder name
+    $pluginName = plugin_basename($this->file);
+    $nameParts = explode(",", $pluginName);
     $desired_install_directory = WP_PLUGIN_DIR . "/postebase";
 
     if (!is_dir($desired_install_directory)) {
@@ -145,7 +148,7 @@ class Updater
 
       // If the plugin was active, reactivate it
       if ($this->active) {
-        activate_plugin("postebase/postebase");
+        activate_plugin(plugin_basename($this->file));
       }
     } else {
       // Handle error; move operation failed
