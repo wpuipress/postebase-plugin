@@ -111,6 +111,7 @@ class Updater
    */
   public function after_install($response, $hook_extra, $result)
   {
+    error_log($result["destination_name"]);
     // Only run this hook for the postebase plugin
     if (!isset($result["destination_name"]) || strpos($result["destination_name"], "postebase") == false) {
       return $result;
