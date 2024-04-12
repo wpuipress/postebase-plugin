@@ -111,10 +111,24 @@ class Updater
    */
   public function after_install($response, $hook_extra, $result)
   {
+    // Only run this hook for the postebase plugin
+    if (!isset($result["destination_name"]) || strpos($result["destination_name"], "postebase") == false) {
+      return $result;
+    }
+
     global $wp_filesystem;
 
     // Define the new install directory, ensure it ends with the desired folder name
     $desired_install_directory = WP_PLUGIN_DIR . "/postebase";
+
+    if (!is_dir($desired_install_directory)) {
+      wp_mkdir_p($desired_install_directory);
+    }
+
+    if (!is_writable($desired_install_directory)) {
+      error_log("Installation failed: Directory is not writable.");
+      return $result; // Handle error appropriately.
+    }
 
     // Check if the destination directory already exists, if so, we'll want to clear it out
     if ($wp_filesystem->is_dir($desired_install_directory)) {
@@ -135,7 +149,7 @@ class Updater
       }
     } else {
       // Handle error; move operation failed
-      return new WP_Error("plugin_move_failed", __("Plugin move failed."));
+      return $result;
     }
 
     return $response;
